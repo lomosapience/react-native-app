@@ -5,36 +5,45 @@
  */
 
 import React, { Component } from 'react';
+import Button from 'apsl-react-native-button';
 import {
-  Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const clickUrl = 'http://localhost:8080/api/click';
 
 export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to Clicker App!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          Click the button to increment count of clicks
         </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <Button
+            style={styles.buttonStyle} textStyle={styles.textStyle}
+            onPress={() => {
+                doClick();
+            }}>
+          CLICK ME!
+        </Button>
       </View>
     );
   }
+}
+
+function doClick() {
+    return fetch(clickUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
 }
 
 const styles = StyleSheet.create({
@@ -53,5 +62,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  buttonStyle: {
+    borderColor: '#c0392b',
+    backgroundColor: 'blue'
+  },
+  textStyle: {
+     color: 'white'
   },
 });
